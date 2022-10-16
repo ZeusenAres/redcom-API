@@ -8,11 +8,14 @@ public class User {
 
     private String password;
 
-    public User(int id, String username, String password)
+    private String email;
+
+    public User(int id, String username, String password, String email)
     {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
     public int getId()
@@ -28,5 +31,10 @@ public class User {
     public String getPassword()
     {
         return password;
+    }
+
+    public String getEmail()
+    {
+        return email;
     }
 }
