@@ -23,6 +23,11 @@ public class User {
         return id;
     }
 
+    public int setId(int id)
+    {
+        return id;
+    }
+
     public String getUsername()
     {
         return username;
