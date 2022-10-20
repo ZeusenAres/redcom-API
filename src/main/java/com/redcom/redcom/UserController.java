@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
+<<<<<<< Updated upstream
     UserService userService;
 
     private AtomicInteger id = new AtomicInteger();
@@ -24,5 +25,13 @@ public class UserController {
     public User createUser(@RequestBody User newUser)
     {
         return userService.addUser(newUser);
+=======
+    private String user;
+
+    @PostMapping(path = "/createUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public User createUser(@RequestBody User user)
+    {
+        return new User(this.user);
+>>>>>>> Stashed changes
     }
 }

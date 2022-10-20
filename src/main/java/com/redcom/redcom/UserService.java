@@ -1,5 +1,6 @@
 package com.redcom.redcom;
 
+<<<<<<< Updated upstream
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserService {
@@ -11,5 +12,12 @@ public class UserService {
 
         newUser.setId(id.incrementAndGet());
         return newUser;
+=======
+public class UserService {
+
+    public User addUser(User newUser)
+    {
+
+>>>>>>> Stashed changes
     }
 }

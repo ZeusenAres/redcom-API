@@ -1,45 +1,32 @@
 package com.redcom.redcom;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class User {
 
-    private int id;
+    private String user;
 
-    private String username;
-
-    private String password;
-
-    private String email;
-
-    public User(int id, String username, String password, String email)
-    {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-
-    public int getId()
-    {
-        return id;
-    }
-
+<<<<<<< Updated upstream
     public int setId(int id)
     {
         return id;
     }
 
     public String getUsername()
+=======
+    public User(String user)
+>>>>>>> Stashed changes
     {
-        return username;
+        this.user = user;
     }
 
-    public String getPassword()
+    public Integer setId(AtomicInteger id)
     {
-        return password;
+        return this.setId(id);
     }
 
-    public String getEmail()
+    public String getUser()
     {
-        return email;
+        return user;
     }
 }
