@@ -9,23 +9,23 @@ import com.redcom.redcom.dto.User;
 @RestController
 public class UserController {
 
-    @PostMapping(value = "/register", consumes = "application/json")
-    public String register(@RequestBody User newUser)
+    private String username;
+
+    private String password;
+
+    private String repeatedPassword;
+
+    private String email;
+
+    @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
+    public User register(@RequestBody User newUser)
     {
-        String message;
 
-        if (!newUser.getPassword().equals(newUser.getRepeatedPassword()))
-        {
+        username = newUser.getUsername();
+        password = newUser.getPassword();
+        repeatedPassword = newUser.getRepeatedPassword();
+        email = newUser.getEmail();
 
-            message = "Passwords must match!";
-        }
-        else
-        {
-
-            message = "Created user with username: " + newUser.getUsername() + ", password: " + newUser.getPassword() + ", and email: " + newUser.getEmail();
-        }
-
-        return message;
-
+        return new User(username, password, repeatedPassword, email);
     }
 }

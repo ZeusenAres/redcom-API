@@ -10,6 +10,14 @@ public class User {
 
     private String email;
 
+    public User(String username, String password, String repeatedPassword, String email) {
+
+        this.username = username;
+        this.password = password;
+        this.repeatedPassword = repeatedPassword;
+        this.email = email;
+    }
+
     public String setUsername(String username)
     {
         return this.username = username;
