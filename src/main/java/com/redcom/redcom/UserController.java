@@ -1,28 +1,31 @@
 package com.redcom.redcom;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.redcom.redcom.dto.User;
+
 @RestController
 public class UserController {
 
-    UserService userService;
-
-    private AtomicInteger id = new AtomicInteger();
-
-    private String username;
-
-    private String password;
-
-    private String email;
-
-    @PostMapping(path = "/newUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public User createUser(@RequestBody User newUser)
+    @PostMapping(value = "/register", consumes = "application/json")
+    public String register(@RequestBody User newUser)
     {
-        return userService.addUser(newUser);
+        String message;
+
+        if (!newUser.getPassword().equals(newUser.getRepeatedPassword()))
+        {
+
+            message = "Passwords must match!";
+        }
+        else
+        {
+
+            message = "Created user with username: " + newUser.getUsername() + ", password: " + newUser.getPassword() + ", and email: " + newUser.getEmail();
+        }
+
+        return message;
+
     }
 }
