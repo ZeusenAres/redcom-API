@@ -1,6 +1,6 @@
 package com.redcom.redcom.Exceptions;
 
-public class UserException extends RuntimeException {
+public class UserException extends Throwable {
 
     private String message;
 
@@ -12,7 +12,7 @@ public class UserException extends RuntimeException {
 
     public String getMessage()
     {
-        return message;
+        return super.getMessage();
     }
 
     public String setMessage(String message)

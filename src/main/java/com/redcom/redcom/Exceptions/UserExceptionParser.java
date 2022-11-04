@@ -1,4 +1,4 @@
-package com.redcom.redcom.controllers;
+package com.redcom.redcom.Exceptions;
 
 public class UserExceptionParser {
 
