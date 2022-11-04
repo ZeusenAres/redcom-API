@@ -1,7 +1,7 @@
-package com.redcom.redcom;
+package com.redcom.redcom.dto;
 
 public class Hello {
-    
+
     private final long id;
 
     private final String content;
