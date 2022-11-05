@@ -10,12 +10,28 @@ public class User {
 
     private String email;
 
-    public User(String username, String password, String repeatedPassword, String email) {
+    private boolean isValid;
+
+    public void registerUser(String username, String password, String repeatedPassword, String email) {
 
         this.username = username;
         this.password = password;
         this.repeatedPassword = repeatedPassword;
         this.email = email;
+
+        if (this.username != null || !this.username.isEmpty()) {
+            
+            if (this.password != null || !this.password.isEmpty()) {
+            
+                if (this.repeatedPassword != null || !this.repeatedPassword.isEmpty()) {
+            
+                    if (this.email != null || !this.email.isEmpty()) {
+            
+                        isValid = setIsValid(true);
+                    }
+                }
+            }
+        }
     }
 
     public String setUsername(String username)
@@ -56,5 +72,15 @@ public class User {
     public String getEmail()
     {
         return email;
+    }
+
+    public boolean setIsValid(Boolean isValid)
+    {
+        return this.isValid = isValid;
+    }
+
+    public boolean getIsValid()
+    {
+        return isValid;
     }
 }

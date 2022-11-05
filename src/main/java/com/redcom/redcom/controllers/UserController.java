@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.redcom.redcom.Exceptions.UserException;
 import com.redcom.redcom.Exceptions.UserExceptionParser;
 import com.redcom.redcom.dto.User;
+import com.redcom.redcom.dto.UserField;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,7 +27,7 @@ public class UserController {
     private Matcher matcher;
 
     @PostMapping(value = "/register", consumes = "application/json", produces = "application/json")
-    public Object register(@RequestBody User newUser) throws UserException
+    public Object register(@RequestBody User newUser, @RequestBody UserField userMessage) throws UserException
     {
 
         try {
@@ -69,7 +71,9 @@ public class UserController {
                 throw new UserException("Please input a valid emailaddress!");
             }
 
-            return new User(username, password, repeatedPassword, email);
+            newUser.registerUser(username, password, repeatedPassword, email);
+
+            return new UserField(newUser.getIsValid(), newUser);
         } catch (UserException ue) {
 
             return new UserExceptionParser(ue.getMessage());

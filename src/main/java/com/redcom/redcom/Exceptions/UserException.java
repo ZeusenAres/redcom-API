@@ -12,7 +12,7 @@ public class UserException extends Throwable {
 
     public String getMessage()
     {
-        return super.getMessage();
+        return message;
     }
 
     public String setMessage(String message)
