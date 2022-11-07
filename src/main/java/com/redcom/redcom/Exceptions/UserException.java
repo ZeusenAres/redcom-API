@@ -1,13 +1,22 @@
 package com.redcom.redcom.Exceptions;
 
-public class UserException extends Throwable {
+import java.time.ZonedDateTime;
 
-    private String message;
+import org.springframework.http.HttpStatus;
 
-    public UserException(String message)
+public class UserException {
+
+    private final String message;
+
+    private final HttpStatus httpStatus;
+
+    private final ZonedDateTime timestamp;
+
+    public UserException(String message, HttpStatus httpStatus, ZonedDateTime timestamp)
     {
-
         this.message = message;
+        this.httpStatus = httpStatus;
+        this.timestamp = timestamp;
     }
 
     public String getMessage()
@@ -15,8 +24,13 @@ public class UserException extends Throwable {
         return message;
     }
 
-    public String setMessage(String message)
+    public HttpStatus getHttpStatus()
     {
-        return this.message = message;
+        return httpStatus;
+    }
+
+    public ZonedDateTime getTimestamp()
+    {
+        return timestamp;
     }
 }

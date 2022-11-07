@@ -2,8 +2,8 @@ package com.redcom.redcom.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.redcom.redcom.Exceptions.UserException;
-import com.redcom.redcom.Exceptions.UserExceptionParser;
+
+import com.redcom.redcom.Exceptions.UserRequestException;
 import com.redcom.redcom.Repositories.UserRepository;
 import com.redcom.redcom.dto.Users;
 
@@ -27,18 +27,28 @@ public class UserController {
     @PostMapping(value = "/register")
     public Users register(@RequestBody Map<String, String> body, Users newUser)
     {
-        
+
         String username = body.get("username");
         String password = body.get("password");
         String email = body.get("email");
+
+        pattern = Pattern.compile("^(.+)@(.+)$");
+
+        matcher = pattern.matcher(email);
+
+        if (!matcher.matches()) {
+
+            throw new UserRequestException("Invalid emailaddress");
+        }
 
         return userRepository.save(new Users(username, password, email));
     }
 
     @GetMapping("/allUsers")
-    public List<Users> index()
+    public List<Users> allUsers()
     {
+
         return userRepository.findAll();
     }
-    
+
 }

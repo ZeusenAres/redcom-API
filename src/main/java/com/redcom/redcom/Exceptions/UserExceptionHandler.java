@@ -1,18 +1,24 @@
 package com.redcom.redcom.Exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
-@RestControllerAdvice
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
 public class UserExceptionHandler {
 
-    @ExceptionHandler(UserException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public UserException handlUserException(UserException ue)
+    @ExceptionHandler(value = {UserRequestException.class})
+    public ResponseEntity<Object> handleUserRequestException(UserRequestException ure)
     {
-        return ue;
-    }
 
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+
+        UserException userException = new UserException(ure.getMessage(), badRequest, ZonedDateTime.now(ZoneId.of("Z")));
+
+        return new ResponseEntity<>(userException, badRequest);
+    }
 }
