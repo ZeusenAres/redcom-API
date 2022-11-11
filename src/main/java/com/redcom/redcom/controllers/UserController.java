@@ -7,10 +7,17 @@ import com.redcom.redcom.Exceptions.UserRequestException;
 import com.redcom.redcom.Repositories.UserRepository;
 import com.redcom.redcom.dto.Users;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -25,7 +32,7 @@ public class UserController {
     UserRepository userRepository;
 
     @PostMapping(value = "/register")
-    public Users register(@RequestBody Map<String, String> body, Users newUser)
+    public Users register(@RequestBody Map<String, String> body, Users newUser) throws NoSuchAlgorithmException
     {
 
         String username = body.get("username");
@@ -41,7 +48,12 @@ public class UserController {
             throw new UserRequestException("Invalid emailaddress");
         }
 
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
 
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 
         return userRepository.save(new Users(username, password, email));
     }
