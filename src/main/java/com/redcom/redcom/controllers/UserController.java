@@ -2,21 +2,20 @@ package com.redcom.redcom.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.redcom.redcom.Exceptions.UserRequestException;
 import com.redcom.redcom.Repositories.UserRepository;
 import com.redcom.redcom.dto.Users;
+import com.redcom.redcom.Services.UserService;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.KeySpec;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -29,10 +28,10 @@ public class UserController {
     private Matcher matcher;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @PostMapping(value = "/register")
-    public Users register(@RequestBody Map<String, String> body, Users newUser) throws NoSuchAlgorithmException
+    public Users register(@RequestBody Map<String, String> body, Users newUser) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
 
         String username = body.get("username");
@@ -52,17 +51,24 @@ public class UserController {
         byte[] salt = new byte[16];
         random.nextBytes(salt);
 
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
+        password = bcrypt.encode(password);
+
+        /*KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+        password = factory.generateSecret(spec).getEncoded().toString();*/
 
         return userRepository.save(new Users(username, password, email));
     }
 
-    @GetMapping("/allUsers")
-    public List<Users> allUsers()
-    {
+    @GetMapping("/users")
+    public List<Users> getAlUsers(){
 
-        return userRepository.findAll();
+        UserService userService = new UserService();
+
+        return userService.getAllUsers();
     }
 
 }
