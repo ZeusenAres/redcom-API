@@ -30,7 +30,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/register", produces = "application/json", consumes = "application/json")
     public Users register(@RequestBody Map<String, String> body, Users newUser) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
 
