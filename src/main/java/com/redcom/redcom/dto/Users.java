@@ -4,34 +4,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.NoArgsConstructor;
 
 @Entity
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int user_id;
 
     private String username;
 
     private String password;
 
     private String email;
-
-    public Users(String username, String password, String email)
+    
+    public Users()
     {
-
-        this.username = username;
-        this.password = password;
-        this.email = email;
+        
     }
 
     public int getId() {
-        return id;
+        return user_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.user_id = id;
     }
 
     public String setUsername(String username)
