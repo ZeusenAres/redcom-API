@@ -1,15 +1,13 @@
 package com.redcom.redcom.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.redcom.redcom.Exceptions.UserRequestException;
 import com.redcom.redcom.Repositories.UserRepository;
 import com.redcom.redcom.dto.Users;
-import com.redcom.redcom.Services.UserService;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -19,9 +17,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.http.ResponseEntity;
-
 
 @RestController
 public class UserController {
@@ -29,6 +24,10 @@ public class UserController {
     private Pattern pattern;
 
     private Matcher matcher;
+
+    private List<Users> users;
+
+    private Users userDto;
 
     @Autowired
     private UserRepository userRepository;
@@ -61,6 +60,16 @@ public class UserController {
         newUser.setPassword(password);
         newUser.setEmail(email);
 
+        if(!getUserByUsername(username).isEmpty())
+        {
+            throw new UserRequestException("User already exists");
+        }
+
+        if(!getUserByEmail(email).isEmpty())
+        {
+            throw new UserRequestException("Emailaddress is already exists");
+        }
+
 
         /*KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -70,17 +79,52 @@ public class UserController {
         return userRepository.save(newUser);
     }
 
-    @GetMapping("/allUsers")
-    public List<Users> getAlUsers(){
+    @PostMapping(value = "/login", produces = "application/json", consumes = "application/json")
+    public Users login(@RequestBody Map<String, String> body) throws NoSuchAlgorithmException, InvalidKeySpecException
+    {
+        String username = body.get("username");
+        String password = body.get("password");
+        
+        if(getUserByUsername(username).isEmpty())
+        {
+            throw new UserRequestException("Invalid username");
+        }
 
-        //UserService userService = new UserService();
+        if(!getUserByUsername(username).isEmpty())
+        {
+            users = getUserByUsername(username);
+        }
 
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
+        for(Users user : users)
+        {
+            if(!bcrypt.matches(password, user.getPassword()))
+            {
+                throw new UserRequestException("Invalid password");
+            }
+            userDto = user;
+            break;
+        }
+
+        return userDto;
+    }
+
+    @GetMapping("/getAllUsers")
+    public List<Users> getAlUsers()
+    {
         return userRepository.findAll();
     }
 
-    @GetMapping("/loginByUser")
-    public List<Users> getLaptopsByName(@RequestParam String username) {
-        
+    @GetMapping("/getByUsername")
+    public List<Users> getUserByUsername(@RequestParam String username)
+    {
 		return userRepository.findByUsername(username);
+	}
+
+    @GetMapping("/getByEmail")
+    public List<Users> getUserByEmail(@RequestParam String email)
+    {
+		return userRepository.findByEmail(email);
 	}
 }
