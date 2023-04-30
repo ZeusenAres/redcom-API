@@ -62,12 +62,12 @@ public class UserController {
 
         if(!getUserByUsername(username).isEmpty())
         {
-            throw new UserRequestException("User already exists");
+            throw new UserRequestException("Username already exists");
         }
 
         if(!getUserByEmail(email).isEmpty())
         {
-            throw new UserRequestException("Emailaddress is already exists");
+            throw new UserRequestException("Emailaddress already exists");
         }
 
 
