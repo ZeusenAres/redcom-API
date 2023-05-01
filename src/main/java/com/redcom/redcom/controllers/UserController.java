@@ -14,6 +14,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,6 +80,31 @@ public class UserController {
         return userRepository.save(newUser);
     }
 
+    @PostMapping(value = "/editUser", produces = "application/json", consumes = "application/json")
+    public Users editUser(@RequestBody Map<String, String> body, Users newUser) throws NoSuchAlgorithmException, InvalidKeySpecException
+    {
+        String id = body.get("id");
+        String username = body.get("username");
+        String password = body.get("password");
+        String email = body.get("email");
+        String originalEmail = body.get("originalEmail");
+
+        if (password.isEmpty())
+        {
+            throw new UserRequestException("Password cannot be empty");
+        }
+
+        if(!getUserByEmail(originalEmail).isEmpty())
+        {
+            newUser.setId(Integer.parseInt(id));
+            newUser.setUsername(username);
+            newUser.setPassword(password);
+            newUser.setEmail(email);
+            userDto = userRepository.save(newUser);
+        }
+        return userDto;
+    }
+
     @PostMapping(value = "/login", produces = "application/json", consumes = "application/json")
     public Users login(@RequestBody Map<String, String> body) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
@@ -115,6 +141,12 @@ public class UserController {
     {
         return userRepository.findAll();
     }
+
+    @GetMapping("/getById")
+    public Optional<Users> getUserById(@RequestParam Integer id)
+    {
+		return userRepository.findById(id);
+	}
 
     @GetMapping("/getByUsername")
     public List<Users> getUserByUsername(@RequestParam String username)
