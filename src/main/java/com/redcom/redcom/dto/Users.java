@@ -17,6 +17,10 @@ public class Users {
     private String password;
 
     private String email;
+
+    private int points;
+
+    private String profileImage;
     
     public Users()
     {
@@ -59,5 +63,25 @@ public class Users {
     public String getEmail()
     {
         return email;
+    }
+
+    public int setPoints(int points)
+    {
+        return this.points = points;
+    }
+
+    public int getPoints()
+    {
+        return points;
+    }
+
+    public String setProfileImage(String profileImage)
+    {
+        return this.profileImage = profileImage;
+    }
+
+    public String getProfileImage()
+    {
+        return profileImage;
     }
 }

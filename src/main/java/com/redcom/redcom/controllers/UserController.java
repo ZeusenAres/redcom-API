@@ -60,6 +60,7 @@ public class UserController {
         newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setEmail(email);
+        newUser.setProfileImage("https://www.nicepng.com/png/detail/933-9332131_profile-picture-default-png.png");
 
         if(!getUserByUsername(username).isEmpty())
         {
@@ -88,6 +89,7 @@ public class UserController {
         String password = body.get("password");
         String email = body.get("email");
         String originalEmail = body.get("originalEmail");
+        String profileImage = body.get("profileImage");
 
         if (password.isEmpty())
         {
@@ -100,6 +102,7 @@ public class UserController {
             newUser.setUsername(username);
             newUser.setPassword(password);
             newUser.setEmail(email);
+            newUser.setProfileImage(profileImage);
             userDto = userRepository.save(newUser);
         }
         return userDto;
