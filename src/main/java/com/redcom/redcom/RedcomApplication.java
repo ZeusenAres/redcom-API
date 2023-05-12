@@ -9,5 +9,4 @@ public class RedcomApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RedcomApplication.class, args);
 	}
-
 }

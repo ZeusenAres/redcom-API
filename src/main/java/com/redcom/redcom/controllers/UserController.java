@@ -18,10 +18,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 @RestController
 public class UserController {
-
     private Pattern pattern;
 
     private Matcher matcher;
@@ -140,7 +138,7 @@ public class UserController {
     }
 
     @GetMapping("/getAllUsers")
-    public List<Users> getAlUsers()
+    public List<Users> getAllUsers()
     {
         return userRepository.findAll();
     }
