@@ -21,13 +21,13 @@ public class ProductController {
     @PostMapping(value = "/registerProduct", produces = "application/json", consumes = "application/json")
     public Products registerProduct(@RequestBody Map<String, String> body, Products newProduct)
     {
-        String productName = body.get("product_name");
+        String productName = body.get("productName");
         String price = body.get("price");
-        String productType = body.get("product_type");
-        String productProperties = body.get("product_properties");
-        String productDescription = body.get("product_description");
+        String productType = body.get("productType");
+        String productProperties = body.get("productProperties");
+        String productDescription = body.get("productDescription");
         String category = body.get("category");
-        String productImage = body.get("product_image");
+        String productImage = body.get("productImage");
 
         newProduct.setProductName(productName);
         newProduct.setPrice(Integer.parseInt(price));
